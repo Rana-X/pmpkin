@@ -12,6 +12,7 @@ from pydantic import BaseModel
 
 from state import State, Session, get_session, reset_session, MCLOVIN_PROFILE, build_fill_instructions
 from services import parse_form, identify_form, fill_form, download_filled_pdf, chat
+from db import ping_db
 
 # Configure logging
 logging.basicConfig(
@@ -30,6 +31,11 @@ DOWNLOADS_DIR.mkdir(exist_ok=True)
 FRONTEND_DIR = Path(__file__).parent / "frontend"
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+
+@app.on_event("startup")
+async def startup():
+    ping_db()
 
 
 class ChatRequest(BaseModel):

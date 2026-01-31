@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-1B AAO Decision UMAP Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .controls {
+            background: #1a1f3a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        select {
+            background: #0a0e27;
+            color: #e0e0e0;
+            border: 1px solid #374151;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        select:hover {
+            border-color: #667eea;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #1a1f3a;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e0e0e0;
+        }
+
+        #plot {
+            background: #1a1f3a;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 700px;
+        }
+
+        .info {
+            background: #1a1f3a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .info h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-section {
+            background: #0a0e27;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info-section h4 {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            color: #e0e0e0;
+        }
+
+        .info-section li {
+            padding: 5px 0;
+            border-bottom: 1px solid #1a1f3a;
+        }
+
+        .info-section li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ H-1B AAO Decision Analysis - UMAP Visualization</h1>
+        <p class="subtitle">Interactive visualization of 61 H-1B AAO appeal decisions using UMAP dimensionality reduction</p>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Cases</div>
+                <div class="stat-value" id="total-cases">61</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Dismissed</div>
+                <div class="stat-value" id="dismissed">49</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Sustained</div>
+                <div class="stat-value" id="sustained">5</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Remanded</div>
+                <div class="stat-value" id="remanded">7</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="colorBy">Color By:</label>
+                <select id="colorBy" onchange="updatePlot()">
+                    <option value="outcome">Outcome</option>
+                    <option value="wage_level">Wage Level</option>
+                    <option value="company_type">Company Type</option>
+                    <option value="service_center">Service Center</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="plot"></div>
+
+        <div class="info">
+            <h3>About This Visualization</h3>
+            <div class="info-grid">
+                <div class="info-section">
+                    <h4>What is UMAP?</h4>
+                    <ul>
+                        <li>Uniform Manifold Approximation and Projection</li>
+                        <li>Reduces 3072-dimensional embeddings to 2D</li>
+                        <li>Similar cases cluster together</li>
+                        <li>Preserves both local and global structure</li>
+                    </ul>
+                </div>
+                <div class="info-section">
+                    <h4>Data Pipeline</h4>
+                    <ul>
+                        <li>1. Extract text from PDFs (Reducto)</li>
+                        <li>2. Extract features (GPT-4o)</li>
+                        <li>3. Generate embeddings (OpenAI)</li>
+                        <li>4. Reduce to 2D (UMAP)</li>
+                    </ul>
+                </div>
+                <div class="info-section">
+                    <h4>Interpretation</h4>
+                    <ul>
+                        <li>Points close together = similar cases</li>
+                        <li>Clusters = common patterns</li>
+                        <li>Hover for case details</li>
+                        <li>Click and drag to zoom</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let casesData = [];
+
+        // Load data from JSON file
+        fetch('umap_data.json')
+            .then(response => response.json())
+            .then(data => {
+                casesData = data;
+                updatePlot();
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('plot').innerHTML =
+                    '<p style="color: #f87171; text-align: center; padding: 50px;">Error loading data. Make sure umap_data.json is in the same directory.</p>';
+            });
+
+        function updatePlot() {
+            const colorBy = document.getElementById('colorBy').value;
+
+            // Create color mapping
+            const colorMaps = {
+                outcome: {
+                    'DISMISSED': '#ef4444',
+                    'SUSTAINED': '#10b981',
+                    'REMANDED': '#f59e0b',
+                    'null': '#6b7280'
+                },
+                wage_level: {
+                    'Level I': '#3b82f6',
+                    'Level II': '#8b5cf6',
+                    'Level III': '#ec4899',
+                    'Level IV': '#f97316',
+                    'null': '#6b7280'
+                },
+                company_type: {
+                    'consulting': '#f59e0b',
+                    'staffing': '#ef4444',
+                    'direct_employer': '#10b981',
+                    'unknown': '#6b7280',
+                    'null': '#6b7280'
+                },
+                service_center: {
+                    'California': '#3b82f6',
+                    'Nebraska': '#8b5cf6',
+                    'Texas': '#ec4899',
+                    'Vermont': '#10b981',
+                    'null': '#6b7280'
+                }
+            };
+
+            const colorMap = colorMaps[colorBy];
+
+            // Group by color value
+            const groups = {};
+            casesData.forEach(c => {
+                const value = c[colorBy] || 'null';
+                if (!groups[value]) {
+                    groups[value] = [];
+                }
+                groups[value].push(c);
+            });
+
+            // Create traces
+            const traces = Object.keys(groups).map(value => {
+                const cases = groups[value];
+                return {
+                    x: cases.map(c => c.x),
+                    y: cases.map(c => c.y),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: value === 'null' ? 'Unknown' : value,
+                    marker: {
+                        size: 12,
+                        color: colorMap[value] || '#6b7280',
+                        line: {
+                            color: '#0a0e27',
+                            width: 2
+                        },
+                        opacity: 0.9
+                    },
+                    text: cases.map(c =>
+                        `<b>${c.filename}</b><br>` +
+                        `Case: ${c.case_number || 'N/A'}<br>` +
+                        `Outcome: ${c.outcome || 'N/A'}<br>` +
+                        `Job: ${c.job_title || 'N/A'}<br>` +
+                        `Company: ${c.company_name || 'N/A'}<br>` +
+                        `Wage: ${c.wage_level || 'N/A'}<br>` +
+                        `Service Center: ${c.service_center || 'N/A'}<br>` +
+                        `Issues: ${c.rfe_issues ? c.rfe_issues.join(', ') : 'N/A'}`
+                    ),
+                    hovertemplate: '%{text}<extra></extra>',
+                    hoverlabel: {
+                        bgcolor: '#1a1f3a',
+                        bordercolor: '#667eea',
+                        font: { color: '#e0e0e0', size: 14 }
+                    }
+                };
+            });
+
+            const layout = {
+                title: {
+                    text: `UMAP Projection - Colored by ${colorBy.replace('_', ' ').toUpperCase()}`,
+                    font: { color: '#e0e0e0', size: 20 }
+                },
+                plot_bgcolor: '#0a0e27',
+                paper_bgcolor: '#1a1f3a',
+                xaxis: {
+                    title: 'UMAP Dimension 1',
+                    gridcolor: '#374151',
+                    zerolinecolor: '#4b5563',
+                    color: '#9ca3af'
+                },
+                yaxis: {
+                    title: 'UMAP Dimension 2',
+                    gridcolor: '#374151',
+                    zerolinecolor: '#4b5563',
+                    color: '#9ca3af'
+                },
+                legend: {
+                    font: { color: '#e0e0e0' },
+                    bgcolor: '#1a1f3a',
+                    bordercolor: '#374151',
+                    borderwidth: 1
+                },
+                hovermode: 'closest',
+                height: 700
+            };
+
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                toImageButtonOptions: {
+                    filename: 'h1b_umap_visualization'
+                }
+            };
+
+            Plotly.newPlot('plot', traces, layout, config);
+        }
+    </script>
+</body>
+</html>

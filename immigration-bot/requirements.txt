@@ -5,3 +5,8 @@ openai
 reductoai
 requests
 python-multipart
+pymongo[srv]
+tqdm
+voyageai
+umap-learn
+numpy
