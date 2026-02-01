@@ -1,0 +1,346 @@
+{
+  "similar_cases": [
+    {
+      "case_number": null,
+      "outcome": "DISMISSED",
+      "job_title": null,
+      "company_name": null,
+      "company_type": "consulting",
+      "wage_level": null,
+      "rfe_issues": [],
+      "arguments_made": [
+        "industry_standards",
+        "other"
+      ],
+      "similarity_score": 0.9498,
+      "decision_date": "2025-03-12",
+      "service_center": "Texas"
+    },
+    {
+      "case_number": "34242963",
+      "outcome": "DISMISSED",
+      "job_title": "Coordinator (Cell Operations)",
+      "company_name": null,
+      "company_type": "consulting",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter",
+        "onet_citation"
+      ],
+      "similarity_score": 0.7759,
+      "decision_date": "2024-12-19",
+      "service_center": "California"
+    },
+    {
+      "case_number": "36174730",
+      "outcome": "DISMISSED",
+      "job_title": null,
+      "company_name": null,
+      "company_type": "unknown",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "prior_approvals"
+      ],
+      "similarity_score": 0.7721,
+      "decision_date": "2025-01-21",
+      "service_center": "California"
+    },
+    {
+      "case_number": "35776673",
+      "outcome": "DISMISSED",
+      "job_title": null,
+      "company_name": null,
+      "company_type": "unknown",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "onet_citation"
+      ],
+      "similarity_score": 0.7706,
+      "decision_date": "2025-01-10",
+      "service_center": "California"
+    },
+    {
+      "case_number": "34046325",
+      "outcome": "DISMISSED",
+      "job_title": "test automation",
+      "company_name": null,
+      "company_type": "consulting",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter"
+      ],
+      "similarity_score": 0.7638,
+      "decision_date": "2024-11-15",
+      "service_center": "California"
+    },
+    {
+      "case_number": "35623543",
+      "outcome": "DISMISSED",
+      "job_title": "assistant program manager",
+      "company_name": "not-for-profit provider of quality services for children and adults with psychological, behavioral, or neurological treatment needs",
+      "company_type": "direct_employer",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter",
+        "onet_citation",
+        "degree_evaluation"
+      ],
+      "similarity_score": 0.6372,
+      "decision_date": "2025-01-21",
+      "service_center": "California"
+    },
+    {
+      "case_number": "35228395",
+      "outcome": "DISMISSED",
+      "job_title": "habilitation counselor",
+      "company_name": "unknown",
+      "company_type": "direct_employer",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter",
+        "onet_citation",
+        "degree_evaluation"
+      ],
+      "similarity_score": 0.6364,
+      "decision_date": "2025-01-14",
+      "service_center": "California"
+    },
+    {
+      "case_number": "32803092",
+      "outcome": "DISMISSED",
+      "job_title": "creative operations associate",
+      "company_name": null,
+      "company_type": "unknown",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "degree_evaluation",
+        "other"
+      ],
+      "similarity_score": 0.6352,
+      "decision_date": "2024-09-16",
+      "service_center": "California"
+    },
+    {
+      "case_number": "35872799",
+      "outcome": "DISMISSED",
+      "job_title": "program manager",
+      "company_name": "unknown",
+      "company_type": "direct_employer",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter",
+        "onet_citation",
+        "degree_evaluation"
+      ],
+      "similarity_score": 0.6333,
+      "decision_date": "2025-01-15",
+      "service_center": "California"
+    },
+    {
+      "case_number": "35828911",
+      "outcome": "DISMISSED",
+      "job_title": "program manager",
+      "company_name": "unknown",
+      "company_type": "direct_employer",
+      "wage_level": null,
+      "rfe_issues": [
+        "specialty_occupation"
+      ],
+      "arguments_made": [
+        "expert_letter",
+        "onet_citation",
+        "degree_evaluation"
+      ],
+      "similarity_score": 0.6333,
+      "decision_date": "2025-01-14",
+      "service_center": "California"
+    }
+  ],
+  "success_probability": {
+    "probability": 0.0,
+    "base_probability": 0.0,
+    "argument_boost": 0.0,
+    "sustained_in_similar": 0,
+    "sample_size": 20,
+    "confidence": "very_high"
+  },
+  "current_strategy_risk": "100% dismissal rate among 20 similar cases. Estimated success probability: 0%.",
+  "winning_patterns": [],
+  "recommendations": [
+    {
+      "add": "degree_evaluation",
+      "impact": "appears in 57%-confidence winning rule",
+      "with_success_rate": 0.571,
+      "sample_size": 4,
+      "confidence": "low",
+      "source": "association_rule"
+    }
+  ],
+  "association_rules": [
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "arg:onet_citation",
+        "comptype:unknown",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.571,
+      "support": 0.066,
+      "lift": 6.971,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "comptype:unknown",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.5,
+      "support": 0.066,
+      "lift": 6.1,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:onet_citation",
+        "comptype:unknown",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.5,
+      "support": 0.066,
+      "lift": 6.1,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:onet_citation",
+        "comptype:unknown",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.5,
+      "support": 0.066,
+      "lift": 6.1,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "comptype:unknown",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.5,
+      "support": 0.066,
+      "lift": 6.1,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "arg:onet_citation",
+        "comptype:unknown"
+      ],
+      "confidence": 0.455,
+      "support": 0.082,
+      "lift": 5.545,
+      "sample_size": 5
+    },
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "arg:onet_citation",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.4,
+      "support": 0.066,
+      "lift": 4.88,
+      "sample_size": 4
+    },
+    {
+      "antecedent": [
+        "arg:degree_evaluation",
+        "arg:onet_citation",
+        "rfe:beneficiary_qualifications"
+      ],
+      "confidence": 0.4,
+      "support": 0.066,
+      "lift": 4.88,
+      "sample_size": 4
+    }
+  ],
+  "counterfactual_analysis": {
+    "degree_evaluation": {
+      "with_count": 12,
+      "without_count": 8,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "high"
+    },
+    "expert_letter": {
+      "with_count": 12,
+      "without_count": 8,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "high"
+    },
+    "industry_standards": {
+      "with_count": 2,
+      "without_count": 18,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "very_low"
+    },
+    "onet_citation": {
+      "with_count": 16,
+      "without_count": 4,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "high"
+    },
+    "other": {
+      "with_count": 5,
+      "without_count": 15,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "medium"
+    },
+    "prior_approvals": {
+      "with_count": 2,
+      "without_count": 18,
+      "with_success_rate": 0.0,
+      "without_success_rate": 0.0,
+      "impact": 0.0,
+      "confidence": "very_low"
+    }
+  },
+  "explanation": "Based on 20 similar H-1B AAO appeal cases, here is the analysis for a Software Developer position at a consulting company with Level I.\n\nRISK: 100% dismissal rate among 20 similar cases. Estimated success probability: 0%.\n\nAmong similar cases: 0 sustained, 20 dismissed, 0 remanded.\n\nRECOMMENDED ADDITIONS to your argument strategy:\n  1. Add 'degree_evaluation' \u2014 appears in 57%-confidence winning rule (confidence: low, n=4)\n\nYour current arguments (onet_citation) are included in the analysis. The recommendations above suggest arguments to ADD on top of your current strategy.",
+  "graph_viz_path": "strategy_recommendation.html"
+}

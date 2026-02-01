@@ -10,3 +10,12 @@ tqdm
 voyageai
 umap-learn
 numpy
+pyvis
+scikit-learn
+nomic
+scipy
+plotly
+networkx
+pandas
+mlxtend
+fpdf2

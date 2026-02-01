@@ -11,9 +11,15 @@ class State(str, Enum):
     FILLING = "filling"
     DONE = "done"
 
+    # RFE investigation flow
+    RFE_UPLOADED = "rfe_uploaded"
+    PROFILE_UPLOADED = "profile_uploaded"
+    RESULTS_READY = "results_ready"
+
 
 # McLovin demo profile data
 MCLOVIN_PROFILE = {
+    # Personal / form-filling fields
     "last_name": "McLovin",
     "first_name": "McLovin",
     "middle_initial": "",
@@ -36,6 +42,13 @@ MCLOVIN_PROFILE = {
     "list_c_issuing_authority": "SSA",
     "list_c_doc_number": "987-65-4321",
     "list_c_expiration": "N/A",
+
+    # H-1B strategy fields (for Investigation tab)
+    "job_title": "Software Developer",
+    "company_type": "consulting",
+    "wage_level": "Level I",
+    "rfe_issues": ["specialty_occupation"],
+    "current_arguments": ["onet_citation"],
 }
 
 
@@ -78,6 +91,25 @@ Employee Signature Date: Today's date
 """
 
 
+def extract_investigation_profile(rfe_text: str, profile_text: str,
+                                   additional_context: str = "") -> dict:
+    """Extract H-1B profile fields from parsed RFE and profile documents.
+
+    For the demo, maps to MCLOVIN_PROFILE's H-1B fields since we know the
+    sample docs match. In production this would use an LLM to extract fields.
+    """
+    profile = {
+        "job_title": MCLOVIN_PROFILE["job_title"],
+        "company_type": MCLOVIN_PROFILE["company_type"],
+        "wage_level": MCLOVIN_PROFILE["wage_level"],
+        "rfe_issues": MCLOVIN_PROFILE["rfe_issues"],
+        "current_arguments": MCLOVIN_PROFILE["current_arguments"],
+    }
+    if additional_context:
+        profile["additional_context"] = additional_context
+    return profile
+
+
 @dataclass
 class Session:
     """Represents a user session with state and stored form data."""
@@ -87,6 +119,13 @@ class Session:
     form_type: Optional[str] = None
     filled_pdf_path: Optional[str] = None
     messages: list = field(default_factory=list)
+
+    # RFE investigation flow
+    rfe_text: Optional[str] = None
+    profile_text: Optional[str] = None
+    additional_context: Optional[str] = None
+    investigation_profile: Optional[dict] = None
+    investigation_result: Optional[dict] = None
 
 
 # In-memory session storage
